@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "876586289935",
+    "project_id": "mritrim",
+    "storage_bucket": "mritrim.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876586289935:android:57de944626812784150c7a",
+        "android_client_info": {
+          "package_name": "com.mridul.mritrim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876586289935-f1gljr2v9sbihrvvuh9blvoft5heivj2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mridul.mritrim",
+            "certificate_hash": "c3755165cf5aadbe23e9c62e6d2a63861c4f9e20"
+          }
+        },
+        {
+          "client_id": "876586289935-j4uisiamu7c9jmhv63l37oeat3ao03hd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHDUPPdQoQZ_20kLKZ9jSOPLfziYTRPUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876586289935-foh9k9dfop8phuk1go03b8a4st4o0ita.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

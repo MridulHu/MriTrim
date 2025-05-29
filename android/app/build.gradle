@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id("com.facebook.react") version "0.79.2"
+    id 'com.google.gms.google-services'
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+android {
+    namespace "com.mridul.mritrim"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.mridul.mritrim"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+
+    
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
+    implementation(name: 'ffmpeg-kit-full-gpl-6.0-2.LTS', ext: 'aar')
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation "com.facebook.react:react-native:+"
+    implementation project(':react-native-splash-screen')
+    implementation project(':react-native-community_slider')
+    implementation project(':react-native-firebase_app')
+    implementation project(':react-native-firebase_auth')
+    implementation project(':react-native-safe-area-context')
+    implementation project(':react-native-screens')
+    implementation project(':react-native-video')
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
+        force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
+        force "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
+    }
+}
+
+project.ext.react = [
+  enableHermes: false,
+  fabric_enabled: false,
+  new_arch_enabled: false
+]
