@@ -1,9 +1,9 @@
 import DocumentPicker from 'react-native-document-picker';
 
-export async function pickMedia(type = [DocumentPicker.types.audio, DocumentPicker.types.video]) {
+export async function pickMedia(types = [DocumentPicker.types.audio, DocumentPicker.types.video]) {
   try {
     const res = await DocumentPicker.pickSingle({
-      type,
+      type: types,
     });
     return res;
   } catch (err) {

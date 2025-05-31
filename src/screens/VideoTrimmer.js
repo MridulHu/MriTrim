@@ -1,19 +1,77 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator, Alert, ScrollView } from 'react-native';
-import { pickMedia } from '../utils/filePicker';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Platform,
+} from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function VideoMerger() {
   const [files, setFiles] = useState([]);
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState(null);
 
+  // Pick media function using react-native-document-picker
+  const pickMedia = async () => {
+    try {
+      const res = await DocumentPicker.pickSingle({
+        type: DocumentPicker.types.video,
+      });
+      // res has { uri, name, size, type }
+      return res;
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled picker
+        return null;
+      } else {
+        Alert.alert('Error', 'Failed to pick a video');
+        return null;
+      }
+    }
+  };
+
+  // Copy content URI (Android) to local file for ffmpeg
+  const copyContentUriToFile = async uri => {
+    try {
+      const fileName = `video_${uuidv4()}.mp4`;
+      const destPath = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
+
+      const exists = await RNFS.exists(destPath);
+      if (exists) await RNFS.unlink(destPath);
+
+      await RNFS.copyFile(uri, destPath);
+      return `file://${destPath}`;
+    } catch (err) {
+      console.warn('Error copying content URI:', err);
+      return uri; // fallback
+    }
+  };
+
   const pickVideo = async () => {
-    const picked = await pickMedia(['video/*']);
+    const picked = await pickMedia();
     if (picked) {
-      setFiles(prev => [...prev, picked]);
+      let fileUri = picked.uri;
+
+      if (Platform.OS === 'android' && fileUri.startsWith('content://')) {
+        fileUri = await copyContentUriToFile(fileUri);
+      }
+
+      // Avoid duplicates by uri
+      if (files.some(f => f.uri === fileUri)) {
+        Alert.alert('Duplicate', 'This video is already selected.');
+        return;
+      }
+
+      setFiles(prev => [...prev, { ...picked, uri: fileUri }]);
       setOutput(null);
     }
   };
@@ -25,8 +83,9 @@ export default function VideoMerger() {
     }
 
     try {
-      const dir = files[0].uri.replace(/\/[^\/]*$/, '');
+      const dir = RNFS.TemporaryDirectoryPath;
       const listFilePath = `${dir}/videolist.txt`;
+
       let listContent = '';
       files.forEach(f => {
         const path = f.uri.replace('file://', '');
@@ -37,7 +96,7 @@ export default function VideoMerger() {
 
       const outputPath = `${dir}/merged_video_${Date.now()}.mp4`;
 
-      const cmd = `-f concat -safe 0 -i ${listFilePath} -c copy ${outputPath}`;
+      const cmd = `-f concat -safe 0 -i "${listFilePath}" -c copy "${outputPath}"`;
 
       setProcessing(true);
       FFmpegKit.executeAsync(cmd, async session => {
@@ -46,6 +105,7 @@ export default function VideoMerger() {
         setProcessing(false);
         if (returnCode.isValueSuccess()) {
           setOutput(`file://${outputPath}`);
+          Alert.alert('Success', 'Videos merged successfully!');
         } else {
           Alert.alert('Error', 'Failed to merge videos');
         }
@@ -62,7 +122,7 @@ export default function VideoMerger() {
       <ScrollView style={{ maxHeight: 150, marginVertical: 10 }}>
         {files.map((file, index) => (
           <Text key={index} style={styles.filename}>
-            {index + 1}. {file.name}
+            {index + 1}. {file.name || file.uri.split('/').pop()}
           </Text>
         ))}
       </ScrollView>

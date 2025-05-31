@@ -8,13 +8,11 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
-import org.devio.rn.splashscreen.SplashScreen
 
 class MainActivity : ReactActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
-      SplashScreen.show(this)  // show splash screen before super
-      super.onCreate(null)     // pass null as recommended by new architecture
+      super.onCreate(savedInstanceState)     // pass null as recommended by new architecture
   }
 
   override fun onConfigurationChanged(newConfig: Configuration) {

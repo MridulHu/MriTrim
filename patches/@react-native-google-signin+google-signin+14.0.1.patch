@@ -1,0 +1,405 @@
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build.gradle b/node_modules/@react-native-google-signin/google-signin/android/build.gradle
+index 4084f9d..ef18bef 100644
+--- a/node_modules/@react-native-google-signin/google-signin/android/build.gradle
++++ b/node_modules/@react-native-google-signin/google-signin/android/build.gradle
+@@ -40,6 +40,10 @@ android {
+   }
+   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+ 
++  buildFeatures {
++    buildConfig = true
++  }
++
+   // Used to override the NDK path/version on internal CI or by allowing
+   // users to customize the NDK path/version from their root project (e.g. for M1 support)
+   if (rootProject.hasProperty("ndkPath")) {
+@@ -66,6 +70,7 @@ android {
+   }
+ }
+ 
++
+ repositories {
+   google()
+   mavenLocal()
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/debug/com/reactnativegooglesignin/BuildConfig.java b/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/debug/com/reactnativegooglesignin/BuildConfig.java
+new file mode 100644
+index 0000000..11dcc76
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/debug/com/reactnativegooglesignin/BuildConfig.java
+@@ -0,0 +1,12 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package com.reactnativegooglesignin;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = Boolean.parseBoolean("true");
++  public static final String LIBRARY_PACKAGE_NAME = "com.reactnativegooglesignin";
++  public static final String BUILD_TYPE = "debug";
++  // Field from default config.
++  public static final boolean IS_NEW_ARCHITECTURE_ENABLED = false;
++}
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/release/com/reactnativegooglesignin/BuildConfig.java b/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/release/com/reactnativegooglesignin/BuildConfig.java
+new file mode 100644
+index 0000000..2d2d96d
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/generated/source/buildConfig/release/com/reactnativegooglesignin/BuildConfig.java
+@@ -0,0 +1,12 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package com.reactnativegooglesignin;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = false;
++  public static final String LIBRARY_PACKAGE_NAME = "com.reactnativegooglesignin";
++  public static final String BUILD_TYPE = "release";
++  // Field from default config.
++  public static final boolean IS_NEW_ARCHITECTURE_ENABLED = false;
++}
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..f4b9354
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.reactnativegooglesignin" >
++
++    <uses-sdk android:minSdkVersion="24" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+new file mode 100644
+index 0000000..4c68df3
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+@@ -0,0 +1,18 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.reactnativegooglesignin",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..f4b9354
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.reactnativegooglesignin" >
++
++    <uses-sdk android:minSdkVersion="24" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/output-metadata.json b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/output-metadata.json
+new file mode 100644
+index 0000000..869cc3c
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aapt_friendly_merged_manifests/release/aapt/output-metadata.json
+@@ -0,0 +1,18 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.reactnativegooglesignin",
++  "variantName": "release",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+new file mode 100644
+index 0000000..776557e
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+@@ -0,0 +1,5 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
++minCompileSdk=1
++minCompileSdkExtension=0
++minAndroidGradlePluginVersion=1.0.0
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/release/aar-metadata.properties b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/release/aar-metadata.properties
+new file mode 100644
+index 0000000..776557e
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/aar_metadata/release/aar-metadata.properties
+@@ -0,0 +1,5 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
++minCompileSdk=1
++minCompileSdkExtension=0
++minAndroidGradlePluginVersion=1.0.0
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/release/annotationProcessors.json b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/release/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/annotation_processor_list/release/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/debug/R.jar
+new file mode 100644
+index 0000000..0b52294
+Binary files /dev/null and b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/release/R.jar b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/release/R.jar
+new file mode 100644
+index 0000000..0b52294
+Binary files /dev/null and b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_r_class_jar/release/R.jar differ
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_symbol_list/debug/R.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_symbol_list/release/R.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/compile_symbol_list/release/R.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+new file mode 100644
+index 0000000..d889a32
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Sat May 31 17:40:01 IST 2025
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+new file mode 100644
+index 0000000..a270277
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\generated\res\resValues\debug"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+new file mode 100644
+index 0000000..7fa0221
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\jniLibs"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\debug\jniLibs"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+new file mode 100644
+index 0000000..3bcb4a8
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\debug\shaders"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml
+new file mode 100644
+index 0000000..6ebfa17
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\jniLibs"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\release\jniLibs"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml
+new file mode 100644
+index 0000000..9304118
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/mergeReleaseShaders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\shaders"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\release\shaders"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+new file mode 100644
+index 0000000..87783b1
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\assets"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\debug\assets"/></dataSet><dataSet config="generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\intermediates\shader_assets\debug\out"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageReleaseAssets/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
+new file mode 100644
+index 0000000..5cce7f2
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/packageReleaseAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\assets"/></dataSet><dataSet config="release" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\release\assets"/></dataSet><dataSet config="generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\intermediates\shader_assets\release\out"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties
+new file mode 100644
+index 0000000..d889a32
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Sat May 31 17:40:01 IST 2025
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/merger.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/merger.xml
+new file mode 100644
+index 0000000..bfa6990
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/incremental/release/packageReleaseResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\release\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release" generated-set="release$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\release\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\generated\res\resValues\release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\build\generated\res\resValues\release"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+new file mode 100644
+index 0000000..78ac5b8
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+@@ -0,0 +1,2 @@
++R_DEF: Internal format may change without notice
++local
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/release/R-def.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/release/R-def.txt
+new file mode 100644
+index 0000000..78ac5b8
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/local_only_symbol_list/release/R-def.txt
+@@ -0,0 +1,2 @@
++R_DEF: Internal format may change without notice
++local
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+new file mode 100644
+index 0000000..c3a86eb
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,7 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    package="com.reactnativegooglesignin" >
++4
++5    <uses-sdk android:minSdkVersion="24" />
++6
++7</manifest>
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt
+new file mode 100644
+index 0000000..c3a86eb
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt
+@@ -0,0 +1,7 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    package="com.reactnativegooglesignin" >
++4
++5    <uses-sdk android:minSdkVersion="24" />
++6
++7</manifest>
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+new file mode 100644
+index 0000000..f4b9354
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.reactnativegooglesignin" >
++
++    <uses-sdk android:minSdkVersion="24" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/release/AndroidManifest.xml b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/release/AndroidManifest.xml
+new file mode 100644
+index 0000000..f4b9354
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/merged_manifest/release/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.reactnativegooglesignin" >
++
++    <uses-sdk android:minSdkVersion="24" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+new file mode 100644
+index 0000000..85c03cb
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+@@ -0,0 +1 @@
++com.reactnativegooglesignin
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt
+new file mode 100644
+index 0000000..85c03cb
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/intermediates/symbol_list_with_package_name/release/package-aware-r.txt
+@@ -0,0 +1 @@
++com.reactnativegooglesignin
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-debug-report.txt
+new file mode 100644
+index 0000000..b65afca
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,17 @@
++-- Merging decision tree log ---
++manifest
++ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:1-4:12
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:1-4:12
++	package
++		ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:2:11-48
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	xmlns:android
++		ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:11-69
++uses-sdk
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
+diff --git a/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-release-report.txt b/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-release-report.txt
+new file mode 100644
+index 0000000..b65afca
+--- /dev/null
++++ b/node_modules/@react-native-google-signin/google-signin/android/build/outputs/logs/manifest-merger-release-report.txt
+@@ -0,0 +1,17 @@
++-- Merging decision tree log ---
++manifest
++ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:1-4:12
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:1-4:12
++	package
++		ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:2:11-48
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	xmlns:android
++		ADDED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml:1:11-69
++uses-sdk
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from D:\Projects_React\React_Native-MusVi\Mri\node_modules\@react-native-google-signin\google-signin\android\src\main\AndroidManifest.xml

@@ -1,19 +1,25 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id("com.facebook.react") version "0.79.2"
     id 'com.google.gms.google-services'
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
+    id 'org.jetbrains.kotlin.android'
+    id 'com.facebook.react' 
 }
 
 android {
     namespace "com.mridul.mritrim"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 35
+
+    defaultConfig {
+        applicationId "com.mridul.mritrim"
+        minSdkVersion 24
+        targetSdkVersion 35
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
 
     signingConfigs {
         release {
@@ -33,19 +39,16 @@ android {
         }
     }
 
-    defaultConfig {
-        applicationId "com.mridul.mritrim"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
-    }
 
-    
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -53,27 +56,24 @@ dependencies {
     implementation(name: 'ffmpeg-kit-full-gpl-6.0-2.LTS', ext: 'aar')
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation "com.facebook.react:react-native:+"
-    implementation project(':react-native-splash-screen')
+    implementation("com.facebook.react:react-android")
+
+
+
+
     implementation project(':react-native-community_slider')
     implementation project(':react-native-firebase_app')
     implementation project(':react-native-firebase_auth')
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-screens')
     implementation project(':react-native-video')
+    implementation project(':@react-native-google-signin_google-signin')
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
-}
-
-configurations.all {
-    resolutionStrategy {
-        force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
-        force "org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22"
-        force "org.jetbrains.kotlin:kotlin-reflect:1.8.22"
+    if (enableHermes.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation("com.facebook.fbjni:fbjni-java-only")
     }
 }
 
-project.ext.react = [
-  enableHermes: false,
-  fabric_enabled: false,
-  new_arch_enabled: false
-]

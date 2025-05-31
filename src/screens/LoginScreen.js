@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
-// Configure Google Signin once (you can move this outside the component if you prefer)
+// Configure Google Signin once (can be moved outside)
 GoogleSignin.configure({
   webClientId: '876586289935-foh9k9dfop8phuk1go03b8a4st4o0ita.apps.googleusercontent.com',
   offlineAccess: true,
@@ -13,7 +23,6 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Optional: You can check if user is already signed in with Google here
   useEffect(() => {
     const checkSignedIn = async () => {
       const isSignedIn = await GoogleSignin.isSignedIn();
@@ -25,15 +34,18 @@ export default function LoginScreen({ navigation }) {
   }, [navigation]);
 
   const handleLogin = async () => {
+    if (!email.trim() || !password) {
+      Alert.alert('Validation', 'Please enter both email and password');
+      return;
+    }
     try {
       await auth().signInWithEmailAndPassword(email.trim(), password);
       navigation.replace('Home');
     } catch (error) {
-      alert(error.message);
+      Alert.alert('Login Error', error.message);
     }
   };
 
-  // Google sign-in handler
   const onGoogleButtonPress = async () => {
     try {
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -54,79 +66,128 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  // Sign out handler (optional, if you want to add sign out here or another screen)
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      await auth().signOut();
-      Alert.alert('Signed out');
-    } catch (error) {
-      Alert.alert('Error signing out', error.message);
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.select({ ios: 'padding', android: null })}
+      style={{ flex: 1 }}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Text style={styles.title}>Sign In</Text>
 
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Password"
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-
-      <Button title="Login" onPress={handleLogin} />
-
-      <View style={{ marginVertical: 12 }}>
-        <Button
-          title="Sign In with Google"
-          color="#DB4437"
-          onPress={onGoogleButtonPress}
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholderTextColor="#999"
         />
-      </View>
 
+        <TextInput
+          placeholder="Password"
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          placeholderTextColor="#999"
+        />
 
-      {/* Optional sign out button for testing */}
-      {/* <Button title="Sign Out" onPress={signOut} color="#888" /> */}
-    </View>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin} activeOpacity={0.8}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={onGoogleButtonPress}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.googleButtonText}>Sign In with Google</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.createAccountText}>Don't have an account? Create one</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#fff',
+    flexGrow: 1,
+    padding: 24,
+    justifyContent: 'center',
+    backgroundColor: '#f0f4ff',
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 24,
-    fontFamily: 'OpenSans-Regular',
-    color: '#3D5AFE',
+    fontSize: 32,
+    fontWeight: '700',
+    marginBottom: 32,
     textAlign: 'center',
+    color: '#3D5AFE',
+    fontFamily: 'OpenSans-Regular',
   },
   input: {
-    height: 48,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 12,
+    backgroundColor: '#fff',
+    height: 50,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    marginBottom: 16,
+    shadowColor: '#00000020',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    elevation: 4,
+    fontFamily: 'OpenSans-Regular',
+    color: '#222',
+  },
+  loginButton: {
+    backgroundColor: '#3D5AFE',
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginBottom: 20,
+    shadowColor: '#3D5AFE',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
     fontFamily: 'OpenSans-Regular',
   },
-  link: {
-    marginTop: 16,
-    color: '#3D5AFE',
+  googleButton: {
+    backgroundColor: '#DB4437',
+    paddingVertical: 14,
+    borderRadius: 12,
+    marginBottom: 30,
+    shadowColor: '#DB4437',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  googleButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
     textAlign: 'center',
+    fontFamily: 'OpenSans-Regular',
+  },
+  createAccountText: {
+    color: '#3D5AFE',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
     fontFamily: 'OpenSans-Regular',
   },
 });

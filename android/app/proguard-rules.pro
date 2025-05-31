@@ -1,10 +1,25 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /usr/local/Cellar/android-sdk/24.3.3/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Firebase Auth
+-keep class com.google.firebase.auth.** { *; }
+-dontwarn com.google.firebase.auth.**
 
-# Add any project specific keep options here:
+# Keep internal classes used by Firebase
+-keep class com.google.android.gms.internal.** { *; }
+-dontwarn com.google.android.gms.internal.**
+
+# Google Play Services (needed by Firebase)
+-keep class com.google.android.gms.** { *; }
+-dontwarn com.google.android.gms.**
+
+# Needed if you're using Tasks API (commonly used by Firebase)
+-keep class com.google.android.gms.tasks.** { *; }
+-dontwarn com.google.android.gms.tasks.**
+
+# JSON serialization (optional, but safe to include)
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+
+# ffmpeg-kit react native support
+-keep class com.arthenica.** { *; }
+-dontwarn com.arthenica.**
