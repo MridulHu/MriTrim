@@ -9,7 +9,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import DocumentPicker from 'react-native-document-picker';
+import DocumentPicker, { types } from '@react-native-documents/picker';
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
@@ -20,14 +20,14 @@ export default function VideoMerger() {
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState(null);
 
-  // Pick media function using react-native-document-picker
+  // Pick media function using @react-native-documents/picker
   const pickMedia = async () => {
     try {
-      const res = await DocumentPicker.pickSingle({
-        type: DocumentPicker.types.video,
+      const res = await DocumentPicker.pick({
+        type: [types.video],
       });
-      // res has { uri, name, size, type }
-      return res;
+      // pick returns an array, get first item
+      return res[0];
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled picker

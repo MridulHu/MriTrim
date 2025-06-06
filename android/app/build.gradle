@@ -2,8 +2,11 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'org.jetbrains.kotlin.android'
-    id 'com.facebook.react' 
+    id 'com.facebook.react'
 }
+
+// ✅ FIX: match the correct key name from gradle.properties
+def enableHermes = project.hasProperty('hermesEnabled') ? project.property('hermesEnabled').toBoolean() : false
 
 android {
     namespace "com.mridul.mritrim"
@@ -39,9 +42,15 @@ android {
         }
     }
 
-
     buildFeatures {
         buildConfig = true
+    }
+
+    externalNativeBuild {
+        cmake {
+            version "4.0.2"
+            path "C:/Users/bhuru/AppData/Local/Android/Sdk/cmake/4.0.2/bin/cmake.exe"
+        }
     }
 }
 
@@ -57,10 +66,9 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation("com.facebook.react:react-android")
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 
-
-
-
+    implementation project(':react-native-fs')
     implementation project(':react-native-community_slider')
     implementation project(':react-native-firebase_app')
     implementation project(':react-native-firebase_auth')
@@ -70,10 +78,10 @@ dependencies {
     implementation project(':@react-native-google-signin_google-signin')
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
-    if (enableHermes.toBoolean()) {
+    // ✅ Hermes conditional dependency
+    if (enableHermes) {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation("com.facebook.fbjni:fbjni-java-only")
     }
 }
-

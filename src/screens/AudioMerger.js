@@ -7,12 +7,14 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
-import { pickMedia } from '../utils/filePicker'; // Your media picker utility
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import Video from 'react-native-video';
-import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
+
+// <-- Updated import from new package
+import DocumentPicker, { pick, keepLocalCopy } from '@react-native-documents/picker';
 
 export default function AudioMerger() {
   const [file1, setFile1] = useState(null);
@@ -20,29 +22,77 @@ export default function AudioMerger() {
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState(null);
 
-  const pickAudio1 = async () => {
+  // Request storage/media permission at runtime
+  const requestStoragePermission = async () => {
+    if (Platform.OS !== 'android') return true;
+
     try {
-      const picked = await pickMedia(['audio/*']);
-      if (picked) {
-        setFile1(picked);
-        setOutput(null);
+      if (Platform.Version >= 33) {
+        // Android 13+
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_AUDIO,
+          {
+            title: 'Permission to access audio files',
+            message: 'App needs access to your audio files',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } else {
+        // Android 12 and below
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'Permission to access storage',
+            message: 'App needs access to your storage to pick audio files',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
       }
-    } catch (e) {
-      Alert.alert('Error', 'Failed to pick first audio');
+    } catch (err) {
+      console.warn(err);
+      return false;
     }
   };
 
-  const pickAudio2 = async () => {
+  const pickAudio = async (setFile) => {
+    const hasPermission = await requestStoragePermission();
+    if (!hasPermission) {
+      Alert.alert(
+        'Permission Denied',
+        'You need to grant storage permission to pick audio files'
+      );
+      return;
+    }
+
     try {
-      const picked = await pickMedia(['audio/*']);
-      if (picked) {
-        setFile2(picked);
+      // Use new 'pick' function which returns an array of files
+      const results = await pick({
+        type: [DocumentPicker.types.audio],
+      });
+
+      if (results && results.length > 0) {
+        const file = results[0];
+
+        // Use keepLocalCopy to copy the file locally (optional but recommended)
+        const [localCopy] = await keepLocalCopy({
+          files: [{ uri: file.uri, fileName: file.name ?? 'fallbackName' }],
+          destination: 'documentDirectory',
+        });
+
+        setFile(localCopy);
         setOutput(null);
       }
-    } catch (e) {
-      Alert.alert('Error', 'Failed to pick second audio');
+    } catch (err) {
+      if (!DocumentPicker.isCancel(err)) {
+        Alert.alert('Error', 'Failed to pick audio file');
+      }
     }
   };
+
+  const pickAudio1 = () => pickAudio(setFile1);
+  const pickAudio2 = () => pickAudio(setFile2);
 
   const mergeAudio = async () => {
     if (!file1 || !file2) {
@@ -59,20 +109,14 @@ export default function AudioMerger() {
       const dirPath = path1.substring(0, path1.lastIndexOf('/'));
       const outputPath = `${dirPath}/merged_audio_${Date.now()}.mp3`;
 
-      // Create a file list for ffmpeg concat
-      // Paths must be absolute and properly escaped if spaces exist
-      // Wrap paths in single quotes and escape existing single quotes by replacing with '\''
+      // Escape single quotes in paths
       const escapePath = (p) => p.replace(/'/g, "'\\''");
 
       const listContent = `file '${escapePath(path1)}'\nfile '${escapePath(path2)}'\n`;
-
-      // Write the file list (filelist.txt) to the same directory
       const listFilePath = `${dirPath}/filelist.txt`;
 
       await RNFS.writeFile(listFilePath, listContent, 'utf8');
 
-      // ffmpeg command for concat demuxer:
-      // -safe 0 disables safe filename checks (required if filenames have special chars)
       const cmd = `-f concat -safe 0 -i ${listFilePath} -c copy ${outputPath}`;
 
       setProcessing(true);
@@ -97,10 +141,10 @@ export default function AudioMerger() {
   return (
     <View style={styles.container}>
       <Button title="Pick First Audio" onPress={pickAudio1} />
-      {file1 && <Text style={styles.filename}>File 1: {file1.name || file1.uri}</Text>}
+      {file1 && <Text style={styles.filename}>File 1: {file1.fileName || file1.uri}</Text>}
 
       <Button title="Pick Second Audio" onPress={pickAudio2} />
-      {file2 && <Text style={styles.filename}>File 2: {file2.name || file2.uri}</Text>}
+      {file2 && <Text style={styles.filename}>File 2: {file2.fileName || file2.uri}</Text>}
 
       <Button title="Merge Audio" onPress={mergeAudio} disabled={processing} />
 
@@ -109,12 +153,7 @@ export default function AudioMerger() {
       {output && (
         <>
           <Text style={{ marginTop: 20 }}>Merged Audio:</Text>
-          <Video
-            source={{ uri: output }}
-            audioOnly
-            controls
-            style={{ width: '100%', height: 50 }}
-          />
+          <Video source={{ uri: output }} audioOnly controls style={{ width: '100%', height: 50 }} />
         </>
       )}
     </View>

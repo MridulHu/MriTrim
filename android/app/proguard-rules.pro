@@ -23,3 +23,7 @@
 # ffmpeg-kit react native support
 -keep class com.arthenica.** { *; }
 -dontwarn com.arthenica.**
+
+
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.soloader.** { *; }

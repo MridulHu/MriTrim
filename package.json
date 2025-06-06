@@ -1,5 +1,5 @@
 {
-  "name": "mritrim",
+  "name": "MriTrim",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/slider": "^4.5.7",
+    "@react-native-documents/picker": "^10.1.3",
     "@react-native-firebase/app": "^22.2.0",
     "@react-native-firebase/auth": "^22.2.0",
     "@react-native-google-signin/google-signin": "^14.0.1",
@@ -21,7 +22,6 @@
     "firebase": "^11.8.1",
     "react": "19.0.0",
     "react-native": "^0.79.2",
-    "react-native-document-picker": "^9.3.1",
     "react-native-fs": "^2.20.0",
     "react-native-paper": "^5.14.5",
     "react-native-safe-area-context": "^5.4.1",
@@ -33,7 +33,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "18.0.0",
+    "@react-native-community/cli": "latest",
     "@react-native-community/cli-platform-android": "18.0.0",
     "@react-native-community/cli-platform-ios": "18.0.0",
     "@react-native/babel-preset": "0.79.2",
