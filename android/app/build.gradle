@@ -1,12 +1,11 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
     id 'org.jetbrains.kotlin.android'
     id 'com.facebook.react'
 }
 
-// ✅ FIX: match the correct key name from gradle.properties
-def enableHermes = project.hasProperty('hermesEnabled') ? project.property('hermesEnabled').toBoolean() : false
+def enableHermes = project.hasProperty('hermesEnabled') ? project.hermesEnabled.toBoolean() : false
+def newArchEnabled = project.hasProperty('newArchEnabled') ? project.newArchEnabled.toBoolean() : false
 
 android {
     namespace "com.mridul.mritrim"
@@ -19,6 +18,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
@@ -44,25 +44,26 @@ android {
 
     buildFeatures {
         buildConfig = true
+        prefab = true
     }
 
-    externalNativeBuild {
-        cmake {
-            version "4.0.2"
-            path "C:/Users/bhuru/AppData/Local/Android/Sdk/cmake/4.0.2/bin/cmake.exe"
+    repositories {
+        flatDir {
+            dirs 'libs'
         }
     }
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
+react {
+    enableHermes = enableHermes
+    newArchEnabled = newArchEnabled
+    autolinkLibrariesWithApp()
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
-    implementation(name: 'ffmpeg-kit-full-gpl-6.0-2.LTS', ext: 'aar')
+    implementation(files("libs/ffmpeg-kit-audio-6.0-2.aar"))
+    implementation 'com.arthenica:smart-exception-java:0.2.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation("com.facebook.react:react-android")
@@ -70,15 +71,11 @@ dependencies {
 
     implementation project(':react-native-fs')
     implementation project(':react-native-community_slider')
-    implementation project(':react-native-firebase_app')
-    implementation project(':react-native-firebase_auth')
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-screens')
     implementation project(':react-native-video')
-    implementation project(':@react-native-google-signin_google-signin')
-    implementation 'com.google.android.gms:play-services-auth:20.7.0'
 
-    // ✅ Hermes conditional dependency
+
     if (enableHermes) {
         implementation("com.facebook.react:hermes-android")
     } else {

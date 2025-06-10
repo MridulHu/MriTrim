@@ -9,10 +9,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
-import com.facebook.react.defaults.DefaultReactNativeHost;
-
-
+import com.facebook.react.soloader.OpenSourceMergedSoMapping;
 import com.rnfs.RNFSPackage;
 
 import java.util.List;
@@ -43,7 +40,6 @@ public class MainApplication extends Application implements ReactApplication {
       return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     }
 
-    // FIX: return type must be `Boolean` (wrapper), NOT primitive `boolean`
     @Override
     protected Boolean isHermesEnabled() {
       return BuildConfig.IS_HERMES_ENABLED;
@@ -58,9 +54,16 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, false);
+
+    // SoLoader.init(this, false); is correctly used for New Architecture by default
+    // as of RN 0.76+ when using DefaultReactNativeHost.
+    // It's still good practice to have it, but for a simple app with DefaultReactNativeHost,
+    // React Native often handles it. Keep it if it was explicitly added.
+    SoLoader.init(this, false); // Initialize SoLoader first
+
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      DefaultNewArchitectureEntryPoint.load();
+      // REMOVED: System.loadLibrary("native-lib");
+      DefaultNewArchitectureEntryPoint.load(); // This correctly loads New Architecture components
     }
   }
 }
